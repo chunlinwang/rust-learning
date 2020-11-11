@@ -1,28 +1,18 @@
-use tokio::sync::oneshot;
-use std::thread::sleep;
-use tokio::time::Duration;
+extern crate argonautica;
 
-#[tokio::main]
-async fn main() {
-    let (tx1, rx1) = oneshot::channel();
-    let (tx2, rx2) = oneshot::channel();
+use argonautica::Hasher;
 
-    tokio::spawn(async {
-        sleep(Duration::from_secs(5));
+fn main() {
+    let mut hasher = Hasher::default();
+    let hash = hasher
+        .with_password("P@ssw0rd")
+        .with_secret_key("\
+            secret key that you should really store in a .env file \
+            instead of in code, but this is just an example\
+        ")
+        .hash()
+        .unwrap();
 
-        let _ = tx1.send("one");
-    });
-
-    tokio::spawn(async {
-        let _ = tx2.send("two");
-    });
-
-    tokio::select! {
-        val = rx1 => {
-            println!("rx1 completed first with {:?}", val);
-        }
-        val = rx2 => {
-            println!("rx2 completed first with {:?}", val);
-        }
-    }
+    println!("{}", &hash);
+    // 👆 prints a hash, which will be random since the default Hasher uses a random salt
 }
