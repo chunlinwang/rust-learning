@@ -1,1 +1,6 @@
-.. include:: ../CONTRIBUTING.rst
+========
+Contributing
+========
+
+Contributing Test.
+Chunlin Wang
