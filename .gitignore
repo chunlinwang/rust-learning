@@ -156,3 +156,5 @@ $RECYCLE.BIN/
 *.lnk
 
 rust-workspace.code-workspace
+
+.env
